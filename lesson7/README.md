@@ -53,7 +53,7 @@ mocha就会自动帮我们生成一个简单的测试原型, 目录结构如下
 
 ```html
 <div id="mocha"></div>
-<script src='https://raw.githubusercontent.com/chaijs/chai/master/chai.js'></script>
+<script src='https://cdn.rawgit.com/chaijs/chai/master/chai.js'></script>
 <script>
   var fibonacci = function (n) {
     if (n === 0) {
@@ -102,18 +102,20 @@ npm i -g mocha-phantomjs
 
 ```html
 <script>
-  if (window.mochaPhantomJS) {
-    mochaPhantomJS.run();
-  } else {
-    mocha.run();
+  if (window.initMochaPhantomJS && window.location.search.indexOf('skip') === -1) {
+    initMochaPhantomJS()
   }
+  mocha.ui('bdd');
+  expect = chai.expect;
+  
+  mocha.run();
 </script>
 ```
 
 这时候, 我们在命令行中运行
 
 ```shell
-mocha-phantomjs index.html
+mocha-phantomjs index.html --ssl-protocol=any --ignore-ssl-errors=true
 ```
 
 结果展现是不是和后端代码测试很类似 :smile:
@@ -123,7 +125,7 @@ mocha-phantomjs index.html
 
 ```json
 "scripts": {
-  "test": "mocha-phantomjs index.html"
+  "test": "mocha-phantomjs index.html --ssl-protocol=any --ignore-ssl-errors=true"
 },
 ```
 
